@@ -18,12 +18,9 @@ const TrackCard = ({ title, artist, image }) => {
   return (
     <Card className={styles.card}>
       <Box className={styles.contentWrapper}>
-        <CardMedia
-          component="img"
-          className={styles.albumCover}
-          image={image}
-          alt="Album Cover"
-        />
+        <Box className={styles.albumWrapper}>
+          <img src={image} alt="Album Cover" className={styles.albumCover} />
+        </Box>
         <CardContent className={styles.trackInfo}>
           <Typography variant="h6" component="div">
             {title}
