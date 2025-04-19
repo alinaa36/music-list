@@ -8,6 +8,12 @@
   background-color: #ffffff;
   max-width: 900px;
   margin: 16px auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(80, 102, 144, 0.15);
 }
 
 .contentWrapper {
@@ -16,25 +22,54 @@
   gap: 16px;
 }
 
-.albumCover {
+.albumWrapper {
   width: 80px;
   height: 80px;
   border-radius: 12px;
-  object-fit: cover;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #f5f5f5;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .albumWrapper {
+  transform: scale(1.05);
+}
+
+.albumCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .trackInfo {
   padding: 0;
+  flex-grow: 1;
+  min-width: 0; /* Важливо для правильного розташування тексту */
 }
 
 .trackInfo h6 {
-  color: #4b32c3; /* фіолетовий заголовок */
+  color: #4b32c3;
   font-weight: 600;
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .trackInfo p {
   color: #6b6b6b;
+  margin: 0;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .controlsWrapper {
@@ -42,6 +77,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .playbackControls {
@@ -51,6 +87,7 @@
   align-items: center;
   padding: 6px 16px;
   gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .playbackControls .MuiIconButton-root {
@@ -60,17 +97,36 @@
   height: 36px;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.playbackControls .MuiIconButton-root:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(106, 90, 205, 0.4);
+}
+
+.playbackControls .MuiIconButton-root:nth-child(2) {
+  background: none;
+  color: #6a5acd;
+  box-shadow: none;
+}
+
+.playbackControls .MuiIconButton-root:nth-child(2):hover {
+  background-color: rgba(106, 90, 205, 0.1);
 }
 
 .timer {
   color: #333;
   font-weight: 500;
   min-width: 80px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .actionButtons {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
 }
 
 .actionButtons .MuiIconButton-root {
@@ -79,15 +135,66 @@
   padding: 4px;
   border: 1px solid transparent;
   border-radius: 4px;
-  transition: border 0.2s ease;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.actionButtons .MuiIconButton-root:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
 }
 
 .actionButtons .MuiIconButton-root:nth-child(1) {
   border-color: #e57373;
+  color: #e57373;
 }
+
+.actionButtons .MuiIconButton-root:nth-child(1):hover {
+  background-color: rgba(229, 115, 115, 0.1);
+}
+
 .actionButtons .MuiIconButton-root:nth-child(2) {
   border-color: #ef5350;
+  color: #ef5350;
 }
+
+.actionButtons .MuiIconButton-root:nth-child(2):hover {
+  background-color: rgba(239, 83, 80, 0.1);
+}
+
 .actionButtons .MuiIconButton-root:nth-child(3) {
   border-color: #81c784;
+  color: #81c784;
+}
+
+.actionButtons .MuiIconButton-root:nth-child(3):hover {
+  background-color: rgba(129, 199, 132, 0.1);
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .contentWrapper {
+    margin-bottom: 16px;
+  }
+
+  .controlsWrapper {
+    align-items: center;
+    width: 100%;
+  }
+
+  .playbackControls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .actionButtons {
+    justify-content: center;
+    margin-top: 8px;
+  }
 }

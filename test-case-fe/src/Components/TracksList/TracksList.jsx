@@ -1,7 +1,8 @@
 import { useTracks } from '../../hooks/useTracks';
-import TrackCard from '../../Components/TrackCard/TrackCard';
-import styles from './HomePage.module.css';
-const HomePage = () => {
+import TrackCard from '../TrackCard/TrackCard';
+import styles from './TracksList.module.css';
+
+const TracksList = () => {
   const { tracks, error, loading } = useTracks();
 
   if (loading) {
@@ -28,4 +29,4 @@ const HomePage = () => {
     </div>
   );
 };
-export default HomePage;
+export default TracksList;
