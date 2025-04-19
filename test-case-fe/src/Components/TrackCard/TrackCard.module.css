@@ -1,0 +1,93 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(80, 102, 144, 0.1);
+  background-color: #ffffff;
+  max-width: 900px;
+  margin: 16px auto;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.albumCover {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.trackInfo {
+  padding: 0;
+}
+
+.trackInfo h6 {
+  color: #4b32c3; /* фіолетовий заголовок */
+  font-weight: 600;
+}
+
+.trackInfo p {
+  color: #6b6b6b;
+}
+
+.controlsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.playbackControls {
+  background-color: #f2f6ff;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  gap: 10px;
+}
+
+.playbackControls .MuiIconButton-root {
+  background: linear-gradient(to bottom right, #6a5acd, #7b68ee);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);
+}
+
+.timer {
+  color: #333;
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actionButtons .MuiIconButton-root {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: border 0.2s ease;
+}
+
+.actionButtons .MuiIconButton-root:nth-child(1) {
+  border-color: #e57373;
+}
+.actionButtons .MuiIconButton-root:nth-child(2) {
+  border-color: #ef5350;
+}
+.actionButtons .MuiIconButton-root:nth-child(3) {
+  border-color: #81c784;
+}
