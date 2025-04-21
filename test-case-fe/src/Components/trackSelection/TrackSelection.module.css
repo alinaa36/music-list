@@ -1,0 +1,90 @@
+.trackSelectionContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .selectionControls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .selectionButton {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .selectionButton:hover {
+    background-color: #e8e8e8;
+  }
+  
+  .selectionButton.active {
+    background-color: #e0e0ff;
+    border-color: #6060ff;
+    color: #4040ff;
+  }
+  
+  .selectionActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .actionButton {
+    padding: 6px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .actionButton:hover {
+    background-color: #e8e8e8;
+  }
+  
+  .actionButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .deleteButton {
+    background-color: #ffe0e0;
+    border-color: #ff6060;
+    color: #ff4040;
+  }
+  
+  .deleteButton:hover {
+    background-color: #ffd0d0;
+  }
+  
+  .selectedCount {
+    margin-left: auto;
+    font-weight: 500;
+    color: #505050;
+  }
+  
+  .bulkActions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .tracksList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }

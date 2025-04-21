@@ -1,0 +1,70 @@
+/* CreateTrackForm.module.css */
+
+/* Стилі для форми */
+.form-container {
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  display: block;
+  width: 100%;
+  border: 1px solid;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+}
+
+.error-text {
+  color: #f87171;
+}
+
+.cover-img {
+  width: 8rem; /* 32px */
+  height: 8rem; /* 32px */
+  object-fit: cover;
+  border: 1px solid;
+  border-radius: 0.375rem; /* rounded */
+}
+
+/* Стилі для доступних жанрів */
+.available-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.available-genres h3 {
+  width: 100%;
+}
+
+.genre-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid;
+  background-color: #e2e8f0; /* Gray 200 */
+  color: #4a5568; /* Gray 700 */
+}
+
+.selected-genre-btn {
+  background-color: #3182ce; /* Blue 600 */
+  color: white;
+}
+
+.selected-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-genre {
+  padding: 0.5rem 1rem;
+  background-color: #3182ce; /* Blue 600 */
+  color: white;
+  border-radius: 9999px;
+}
+
+.remove-genre-btn {
+  margin-left: 0.5rem;
+  color: white;
+}

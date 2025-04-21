@@ -8,7 +8,9 @@
   background-color: #ffffff;
   max-width: 900px;
   margin: 16px auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .card:hover {
@@ -97,7 +99,9 @@
   height: 36px;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .playbackControls .MuiIconButton-root:hover {
@@ -169,6 +173,46 @@
 
 .actionButtons .MuiIconButton-root:nth-child(3):hover {
   background-color: rgba(129, 199, 132, 0.1);
+}
+/* Add these styles to your TrackCard.module.css */
+.card.selectable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.card.selectable:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 255, 0.2);
+}
+
+.card.selected {
+  box-shadow: 0 0 0 2px #4040ff;
+  background-color: rgba(64, 64, 255, 0.03);
+}
+
+.selectionIndicator {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.checkIcon {
+  font-size: 24px;
+  color: #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.checkIcon.checked {
+  color: #4040ff;
 }
 
 /* Адаптивність для мобільних пристроїв */
