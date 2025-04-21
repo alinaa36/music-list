@@ -1,31 +1,17 @@
 import { useTracks } from '../../hooks/useTracks';
 import TrackCard from '../../Components/TrackCard/TrackCard';
 import styles from './HomePage.module.css';
+import TrackSearchBar from '../../Components/trackSearchBar/trackSearchBar';
+import TracksList from '../../Components/TracksList/TracksList';
+import { TracksProvider } from '../../context';
 const HomePage = () => {
-  const { tracks, error, loading } = useTracks();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
   return (
-    <div className="home-page">
-      {tracks.length > 0 ? (
-        tracks.map((track) => (
-          <div key={track.id} className="track">
-            <TrackCard
-              title={track.title}
-              artist={track.artist}
-              image={track.coverImage}
-            />
-          </div>
-        ))
-      ) : (
-        <p>Tracks not found</p>
-      )}
-    </div>
+    <TracksProvider>
+      <div className="home-page">
+        <TrackSearchBar />
+        <TracksList />
+      </div>
+    </TracksProvider>
   );
 };
 export default HomePage;
