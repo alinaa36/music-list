@@ -18,8 +18,10 @@ import { useState } from 'react';
 import Modal from '../modalWin/Modal';
 import Delete from '../Delete/Delete';
 import { useAudioDelete } from '../../hooks/useAudioDelete';
+import AudoiDelete from '../audoi-delete/AudioDelete';
 
 const TrackCard = ({
+  allGenres,
   id,
   title,
   artist,
@@ -32,7 +34,7 @@ const TrackCard = ({
   onToggleSelect,
 }) => {
   const [modalType, setModalType] = useState(null);
-  const audioUrl = `http://localhost:3000/api/files/${audiofile}`;
+  const audioUrl = `http://localhost:8000/api/files/${audiofile}`;
 
   const closeModal = () => {
     setModalType(null);
@@ -46,11 +48,6 @@ const TrackCard = ({
     coverUrl: image,
     genres,
   };
-
-  const { deleteAudio, audioDeleteLoading } = useAudioDelete(() => {
-    console.log('Оновити UI після видалення аудіо');
-    // Тут можна, наприклад, викликати onDeleteSuccess() або оновити стан
-  });
 
   // Handle click event differently based on selection mode
   const handleCardClick = (e) => {
@@ -75,11 +72,11 @@ const TrackCard = ({
           </div>
         )}
 
-        <Box className={styles.contentWrapper}>
+        <Box>
           <Box className={styles.albumWrapper}>
             <img src={image} alt="Album Cover" className={styles.albumCover} />
           </Box>
-          <CardContent className={styles.trackInfo}>
+          <CardContent>
             <Typography variant="h6" component="div">
               {title}
             </Typography>
@@ -125,9 +122,8 @@ const TrackCard = ({
                   aria-label="delete-audio"
                   onClick={async (e) => {
                     e.stopPropagation();
-                    await deleteAudio(id);
+                    setModalType('delete-audio');
                   }}
-                  disabled={audioDeleteLoading}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -142,6 +138,7 @@ const TrackCard = ({
       <Modal isOpen={modalType !== null} onClose={closeModal}>
         {modalType === 'edit' && (
           <CreateTrackForm
+            allGenres={allGenres}
             initialData={existingTrack}
             onSuccess={(track) => {
               console.log('Оновлено!', track);
@@ -149,7 +146,21 @@ const TrackCard = ({
             }}
           />
         )}
-        {modalType === 'delete' && <Delete id={id} onClose={closeModal} />}
+        {modalType === 'delete' && (
+          <>
+            <Delete id={id} onClose={closeModal} />
+          </>
+        )}
+        {modalType === 'delete-audio' && (
+          <AudoiDelete
+            id={id}
+            onClose={closeModal}
+            onDelete={() => {
+              console.log('Audio deleted');
+              closeModal();
+            }}
+          />
+        )}
       </Modal>
     </>
   );

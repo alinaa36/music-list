@@ -1,98 +1,106 @@
-import { useTracksContest } from '../../context';
+// Components/TracksList/TracksList.jsx
+import { useEffect, useState, useCallback, memo } from 'react';
+import styles from './TracksList.module.css'; // Adjust the path if necessary
 import TrackCard from '../TrackCard/TrackCard';
-
-import styles from './TracksList.module.css';
 import { useTrackDelete } from '../../hooks/useTrackDelete';
 import TrackSelectionManager from '../trackSelection/TrackSelectoin';
+import { useApi } from '../../hooks/useApi';
+import { trackService } from '../../api/track.service';
+import Pagination from '../Pagination/Pagination';
+import FilterSidebar from '../trackSearchBar/trackSearchBar';
+import TracksContent from '../track-content/TrackContent';
+import CreateTrackForm from '../createTrackForm/CreateTrackForm';
+import Modal from '../modalWin/Modal';
+import { genreService } from '../../api/genre.servise';
 
 const TracksList = () => {
-  const { tracks, error, loading, page, setPage, totalPages, refreshTracks } =
-    useTracksContest();
+  const { data: genreItems } = useApi(genreService.getGenreList);
 
-  // Use your existing delete hook for bulk deletion
-  const { deleteTrack } = useTrackDelete(() => {
-    // Refresh tracks after deletion
-    refreshTracks();
+  useEffect(() => {
+    console.log('genreItems:', genreItems);
+  }, [genreItems]);
+  const [isModalOpen, setModalOpen] = useState(false);
+  // Налаштування хука API
+  const {
+    data: tracks,
+    loading,
+    error,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    totalPages,
+    query,
+    setQuery,
+    execute,
+  } = useApi(trackService.getTrackList, {
+    page: 1,
+    limit: 3,
+    query: {}, // Початкові фільтри
   });
 
-  // Handler for bulk deletion
-  const handleBulkDelete = async (selectedIds) => {
-    if (
-      window.confirm(
-        `Ви впевнені, що хочете видалити ${selectedIds.length} треків?`,
-      )
-    ) {
-      try {
-        // Delete tracks one by one
-        for (const id of selectedIds) {
-          await deleteTrack(id);
+  // Запит при зміні query або сторінки
+  useEffect(() => {
+    execute();
+  }, [query, page]); // Додаємо query та page в залежності
+
+  // Обробники для виконання дій
+  const handleBulkDelete = useCallback(
+    async (selectedIds) => {
+      if (
+        window.confirm(
+          `Ви впевнені, що хочете видалити ${selectedIds.length} треків?`,
+        )
+      ) {
+        try {
+          // Тут логіка видалення
+          execute(); // Оновлюємо дані після видалення
+        } catch (error) {
+          console.error('Error deleting tracks:', error);
         }
-        // Refresh the tracks list after deletion
-        refreshTracks();
-      } catch (error) {
-        console.error('Error deleting tracks:', error);
       }
-    }
-  };
+    },
+    [execute],
+  );
 
-  // Handler for adding to playlist (implement as needed)
-  const handleAddToPlaylist = (selectedIds) => {
+  const handleAddToPlaylist = useCallback((selectedIds) => {
     console.log('Adding to playlist:', selectedIds);
-    // Implement your logic here
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (!tracks || tracks.length === 0) {
-    return <p>Tracks not found</p>;
-  }
+  }, []);
 
   return (
-    <div className="home-page">
-      <TrackSelectionManager
-        tracks={tracks}
-        onBulkDelete={handleBulkDelete}
-        onAddToPlaylist={handleAddToPlaylist}
-      >
-        {tracks.map((track) => (
-          <TrackCard
-            key={track.id}
-            id={track.id}
-            title={track.title}
-            album={track.album}
-            genres={track.genres}
-            artist={track.artist}
-            image={track.coverImage}
-            audiofile={track.audioFile}
-          />
-        ))}
-      </TrackSelectionManager>
+    <div className={styles.tracksContainer}>
+      <div className={styles.sidebar}>
+        <FilterSidebar
+          genres={genreItems}
+          query={query}
+          setQuery={setQuery}
+          changePage={setPage}
+        />
+      </div>
 
-      {/* Pagination */}
-      <div className={styles.pagination}>
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className={styles.pageButton}
-        >
-          ← Назад
-        </button>
-        <span className={styles.pageInfo}>
-          Сторінка {page} з {totalPages}
-        </span>
-        <button
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-          className={styles.pageButton}
-        >
-          Вперед →
-        </button>
+      <div className={styles.mainContent}>
+        <button onClick={() => setModalOpen(true)}>Створити трек</button>
+
+        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+          <CreateTrackForm
+            allGenres={genreItems}
+            onSuccess={(track) => console.log('Created!', track)}
+          />
+        </Modal>
+
+        <div>
+          <TracksContent
+            allGenres={genreItems}
+            tracks={tracks}
+            loading={loading}
+            error={error}
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
+            onBulkDelete={handleBulkDelete}
+            onAddToPlaylist={handleAddToPlaylist}
+          />
+        </div>
       </div>
     </div>
   );

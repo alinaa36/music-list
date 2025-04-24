@@ -1,0 +1,22 @@
+.tracksList {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.tracksList::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tracksList::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.tracksList::-webkit-scrollbar-track {
+  background: transparent;
+}

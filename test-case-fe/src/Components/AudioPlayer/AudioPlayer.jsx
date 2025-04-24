@@ -9,6 +9,7 @@ function AudioPlayer({ audioUrl }) {
   const handleTogglePlayback = () => {
     const audio = audioRef.current;
     if (!audio) return;
+    console.log('audioUrl:', audioUrl);
 
     if (isPlaying) {
       audio.pause();

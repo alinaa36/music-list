@@ -1,12 +1,29 @@
 import axios from 'axios';
+import { ENDPOINTS } from './api';
 
 export const trackService = {
-  async getTrackList(page = 1, limit = 3) {
+  async getTrackList({ page = 1, limit = 3, query = {} } = {}) {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/tracks?page=${page}&limit=${limit}`,
-      );
-      console.log(response);
+      const { sort, order, search, genre, artist } = query;
+      const params = new URLSearchParams();
+
+      // Додаємо базові параметри пагінації
+      params.append('page', Number(page));
+      params.append('limit', Number(limit));
+
+      if (sort && order) {
+        params.append('sort', sort);
+        params.append('order', order);
+      }
+
+      if (search) params.append('search', search);
+      if (genre) params.append('genre', genre);
+      if (artist) params.append('artist', artist);
+
+      // Використовуємо базовий URL з констант
+      const response = await axios.get(`${ENDPOINTS.TRACK.LIST}`, { params });
+
+      console.log('API Response:', response);
       return response.data;
     } catch (error) {
       console.error('Error fetching track list:', error);
@@ -36,8 +53,8 @@ export const trackService = {
   async createTrack(trackData) {
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/tracks',
-        trackData,
+        `${ENDPOINTS.TRACK.CREATE}`,
+        trackData.body,
       );
       console.log('Track created:', response.data);
       return response.data;
@@ -47,17 +64,13 @@ export const trackService = {
     }
   },
 
-  async uploadTrackFile(id, file) {
+  async uploadTrackFile({ id, file }) {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/tracks/${id}/upload`,
+        `${ENDPOINTS.TRACK.CREATE_FILE(id)}`,
         file,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
       );
+
       console.log('Track file uploaded:', response.data);
       return response.data;
     } catch (error) {
@@ -66,12 +79,10 @@ export const trackService = {
     }
   },
 
-  async updateTrack(id, trackData) {
+  async updateTrack({ id, body }) {
     try {
-      const response = await axios.put(
-        `http://localhost:3000/api/tracks/${id}`,
-        trackData,
-      );
+      console.log('trackData', body);
+      const response = await axios.put(`${ENDPOINTS.TRACK.UPDATE(id)}`, body);
       console.log('Track updated:', response.data);
       return response.data;
     } catch (error) {
@@ -79,11 +90,9 @@ export const trackService = {
       throw error;
     }
   },
-  async deleteTrack(id) {
+  async deleteTrack({ id }) {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/api/tracks/${id}`,
-      );
+      const response = await axios.delete(`${ENDPOINTS.TRACK.DELETE(id)}`);
       console.log('Track deleted:', response.data);
       return response.data;
     } catch (error) {
@@ -92,14 +101,11 @@ export const trackService = {
     }
   },
 
-  async deleteSelectionTracks(ids) {
+  async deleteSelectionTracks({ ids }) {
     try {
-      const response = await axios.post(
-        'http://localhost:3000/api/tracks/delete',
-        {
-          ids,
-        },
-      );
+      const response = await axios.post(`${ENDPOINTS.TRACK.DELETE_TRACKS}`, {
+        ids,
+      });
       console.log('Tracks deleted:', response.data);
       return response.data;
     } catch (error) {
@@ -108,11 +114,9 @@ export const trackService = {
     }
   },
 
-  async deletefile(id) {
+  async deletefile({ id }) {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/api/tracks/${id}/file`,
-      );
+      const response = await axios.delete(`${ENDPOINTS.TRACK.DELETE_FILE(id)}`);
       console.log('Track file deleted:', response.data);
       return response.data;
     } catch (error) {
