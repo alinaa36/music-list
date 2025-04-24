@@ -12,14 +12,15 @@ const CheckboxFilterSection = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
+  const [visibleItems, setVisibleItems] = useState(5);
 
   useEffect(() => {
-    if (query && query.length) {
-      setSelectedItems(query);
+    if (query && query[filterKey] && Array.isArray(query[filterKey])) {
+      setSelectedItems(query[filterKey]);
     } else {
       setSelectedItems([]);
     }
-  }, [query]);
+  }, [query, filterKey]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -35,15 +36,25 @@ const CheckboxFilterSection = ({
     }
 
     setSelectedItems(updated);
+
     setQuery((prev) => ({
       ...prev,
       [filterKey]: updated,
     }));
+
     changePage(1);
   };
 
+  const showMoreItems = () => {
+    setVisibleItems((prev) => prev + 5);
+  };
+
+  const filteredItems = items.filter((item) =>
+    item.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   return (
-    <div className={styles.filterSection}>
+    <div className={styles.filterSection} data-testid="filter-genre">
       <h4 className={styles.sectionTitle}>{title}</h4>
       <div className={styles.filterSearch}>
         <input
@@ -55,7 +66,7 @@ const CheckboxFilterSection = ({
         />
       </div>
       <div className={styles.checkboxList}>
-        {items.map((item, index) => (
+        {filteredItems.slice(0, visibleItems).map((item, index) => (
           <label key={index} className={styles.checkboxItem}>
             <input
               type="checkbox"
@@ -63,11 +74,14 @@ const CheckboxFilterSection = ({
               onChange={() => handleCheckboxChange(item)}
             />
             <span className={styles.checkboxLabel}>{item}</span>
-            <span className={styles.countBadge}>{item.count}</span>
           </label>
         ))}
       </div>
-      <button className={styles.showMoreButton}>Показати більше</button>
+      {visibleItems < filteredItems.length && (
+        <button className={styles.showMoreButton} onClick={showMoreItems}>
+          Show More
+        </button>
+      )}
     </div>
   );
 };

@@ -3,6 +3,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useTrackForm } from '../../hooks/useTrackForm';
 import { trackService } from '../../api/track.service';
 import { useApi } from '../../hooks/useApi';
+import AudioFileIcon from '@mui/icons-material/AudioFile';
+import styles from '../TrackCard/TrackCard.module.css';
 
 const UploadFile = ({ id }) => {
   const handleFileUpload = async (event) => {
@@ -13,7 +15,6 @@ const UploadFile = ({ id }) => {
 
     const formData = new FormData();
     formData.append('file', file);
-    console.log('id', id);
 
     await apiHook.execute({
       method: 'POST',
@@ -27,9 +28,10 @@ const UploadFile = ({ id }) => {
       role={undefined}
       variant="contained"
       tabIndex={-1}
-      startIcon={<CloudUploadIcon />}
+      className={styles.iconButton}
+      data-testid={'upload-track-${id}'}
     >
-      Upload files
+      <AudioFileIcon />
       <input
         type="file"
         onChange={handleFileUpload}

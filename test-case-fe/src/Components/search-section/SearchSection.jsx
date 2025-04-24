@@ -23,14 +23,6 @@ const SearchSection = ({ query, setQuery, changePage }) => {
     debouncedSearch(value);
   };
 
-  const handleSearchClick = () => {
-    setQuery((prev) => ({
-      ...prev,
-      search: searchValue,
-    }));
-    changePage(1);
-  };
-
   useEffect(() => {
     if (query?.search !== searchValue) {
       setSearchValue(query?.search || '');
@@ -47,10 +39,8 @@ const SearchSection = ({ query, setQuery, changePage }) => {
           className={styles.searchInput}
           value={searchValue}
           onChange={handleInputChange}
+          data-testid="search-input"
         />
-        <button className={styles.searchButton} onClick={handleSearchClick}>
-          <span className={styles.searchIcon}>🔍</span>
-        </button>
       </div>
       <p className={styles.searchHint}>
         Пошук з debounce за назвою, виконавцем та альбомом

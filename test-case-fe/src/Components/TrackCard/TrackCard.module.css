@@ -1,0 +1,98 @@
+.card {
+  background-color: #1b3935;
+  color: #e6fff3;
+  border-radius: 12px;
+  padding: 12px;
+  width: 280px; /* компактна ширина */
+  box-shadow: 0 2px 8px rgba(27, 57, 53, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.albumWrapper {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.albumCover {
+  width: 100%;
+  height: 100;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.trackInfo {
+  margin-top: 8px;
+}
+
+.trackInfo h6 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: #e6fff3;
+}
+
+.trackInfo .MuiTypography-subtitle1 {
+  font-size: 12px;
+  color: #a3c9bf;
+}
+
+.controlsWrapper {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.playbackControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.playbackControls .MuiIconButton-root {
+  padding: 4px;
+  font-size: 16px;
+  color: #4ade80;
+}
+
+.timer {
+  font-size: 10px;
+  color: #a3c9bf;
+  margin-left: auto;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 4px;
+}
+
+.actionButtons .MuiIconButton-root {
+  padding: 4px;
+  font-size: 16px;
+  color: #a3c9bf;
+}
+
+.actionButtons .MuiIconButton-root:hover {
+  color: #00e673;
+}
+.iconButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.iconButton:focus {
+  outline: none;
+}
+
+.iconButton svg {
+  fill: currentColor;
+}

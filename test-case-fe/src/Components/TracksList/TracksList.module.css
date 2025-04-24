@@ -23,3 +23,9 @@
   align-items: flex-start; /* вирівнювання по верхньому краю */
   width: 10%;
 }
+.header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 1rem;
+}

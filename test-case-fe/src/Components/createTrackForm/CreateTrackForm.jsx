@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { trackService } from '../../api/track.service';
-import { useGenre } from '../../hooks/useGenre';
 import styles from './CreateTrackForm.module.css';
 
 function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
@@ -41,10 +40,12 @@ function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = 'Назва обовʼязкова';
-    if (!formData.artist.trim()) newErrors.artist = 'Виконавець обовʼязковий';
+    if (!formData.title.trim()) newErrors.title = 'Title is required';
+    if (!formData.artist.trim()) newErrors.artist = 'Artist is required';
     if (formData.coverImage && !formData.coverImage.startsWith('http'))
-      newErrors.coverImage = 'Некоректне посилання на зображення';
+      newErrors.coverImage = 'Invalid image URL';
+    if (formData.genres.length === 0)
+      newErrors.genres = 'At least one genre is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -53,9 +54,7 @@ function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
     e.preventDefault();
     if (!validate()) return;
 
-    const payload = isEditMode
-      ? { ...formData } // Без id в body для PUT
-      : { ...formData };
+    const payload = isEditMode ? { ...formData } : { ...formData };
 
     const requestOptions = isEditMode
       ? {
@@ -81,48 +80,60 @@ function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
         });
       }
     } else {
-      setErrors({ submit: 'Не вдалося зберегти трек' });
+      setErrors({ submit: 'Failed to save the track' });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles['form-container']}>
+    <form
+      onSubmit={handleSubmit}
+      className={styles['form-container']}
+      data-testid="track-form"
+    >
       <input
         name="title"
         value={formData.title}
         onChange={handleChange}
-        placeholder="Назва треку"
+        placeholder="Track Title"
         className={styles['input-field']}
+        data-testid="input-title"
       />
       {errors.title && (
-        <div className={styles['error-text']}>{errors.title}</div>
+        <div className={styles['error-text']} data-testid="error-title">
+          {errors.title}
+        </div>
       )}
 
       <input
         name="artist"
         value={formData.artist}
         onChange={handleChange}
-        placeholder="Виконавець"
+        placeholder="Artist"
         className={styles['input-field']}
+        data-testid="input-artist"
       />
       {errors.artist && (
-        <div className={styles['error-text']}>{errors.artist}</div>
+        <div className={styles['error-text']} data-testid="error-artist">
+          {errors.artist}
+        </div>
       )}
 
       <input
         name="album"
         value={formData.album}
         onChange={handleChange}
-        placeholder="Альбом (необов'язково)"
+        placeholder="Album (optional)"
         className={styles['input-field']}
+        data-testid="input-album"
       />
 
       <input
         name="coverImage"
         value={formData.coverImage}
         onChange={handleChange}
-        placeholder="URL обкладинки"
+        placeholder="Image URL"
         className={styles['input-field']}
+        data-testid="input-cover-image"
       />
       {errors.coverImage && (
         <div className={styles['error-text']}>{errors.coverImage}</div>
@@ -130,12 +141,12 @@ function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
 
       <img
         src={formData.coverImage || '/default-cover.png'}
-        alt="Обкладинка"
+        alt="Cover"
         className={styles['cover-img']}
       />
 
-      <div className={styles['available-genres']}>
-        <h3 className="w-full">Жанри:</h3>
+      <div className={styles['available-genres']} data-testid="genre-selector">
+        <h3 className="w-full">Genres:</h3>
         {genres.map((genre) => {
           const isSelected = formData.genres.includes(genre);
           return (
@@ -153,16 +164,18 @@ function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
           );
         })}
       </div>
+      {errors.genres && (
+        <div className={styles['error-text']} data-testid="error-genres">
+          {errors.genres}
+        </div>
+      )}
       <button
         type="submit"
         className="bg-blue-600 text-white px-4 py-2 rounded"
         disabled={apiHook.loading}
+        data-testid="submit-button"
       >
-        {apiHook.loading
-          ? 'Зберігаємо...'
-          : isEditMode
-            ? 'Оновити'
-            : 'Створити'}
+        {apiHook.loading ? 'Saving...' : isEditMode ? 'Update' : 'Create'}
       </button>
 
       {errors.submit && (
@@ -170,7 +183,7 @@ function CreateTrackForm({ allGenres, initialData = {}, onSuccess }) {
       )}
       {apiHook.error && (
         <div className={styles['error-text']}>
-          Сталася помилка: {apiHook.error.message}
+          Error: {apiHook.error.message}
         </div>
       )}
     </form>

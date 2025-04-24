@@ -1,32 +1,59 @@
-import { useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { IconButton } from '@mui/material';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-function AudioPlayer({ audioUrl }) {
+function AudioPlayer({ audioUrl, idTrack, isActive, playTrack, stopTrack }) {
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      if (isActive) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [isActive]);
 
   const handleTogglePlayback = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    console.log('audioUrl:', audioUrl);
 
-    if (isPlaying) {
-      audio.pause();
+    if (isActive) {
+      stopTrack();
     } else {
-      audio.play();
+      playTrack(idTrack, audio);
     }
-    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      setProgress((audio.currentTime / audio.duration) * 100);
+    }
   };
 
   return (
-    <div>
-      <IconButton aria-label="volume" onClick={handleTogglePlayback}>
-        <VolumeUpIcon />
+    <div data-testid={`audio-player-${idTrack}`}>
+      <IconButton
+        aria-label="toggle playback"
+        onClick={handleTogglePlayback}
+        data-testid={
+          isActive ? `pause-button-${idTrack}` : `play-button-${idTrack}`
+        }
+      >
+        {isActive ? <PauseIcon /> : <PlayArrowIcon />}
       </IconButton>
 
-      {/* Прихований, але керований елемент <audio> */}
-      <audio ref={audioRef} src={audioUrl} preload="auto">
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        preload="auto"
+        onTimeUpdate={handleTimeUpdate}
+      >
         <track
           kind="captions"
           src="captions.vtt"
@@ -34,6 +61,15 @@ function AudioPlayer({ audioUrl }) {
           label="English captions"
         />
       </audio>
+
+      <div
+        data-testid={`audio-progress-${idTrack}`}
+        style={{
+          width: `${progress}%`,
+          height: '5px',
+          backgroundColor: '#4caf50', // або будь-який інший колір для індикатора прогресу
+        }}
+      />
     </div>
   );
 }

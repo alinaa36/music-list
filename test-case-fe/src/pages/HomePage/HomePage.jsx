@@ -7,11 +7,10 @@ import { TracksProvider } from '../../context/context';
 import FilterSidebar from '../../Components/trackSearchBar/trackSearchBar';
 const HomePage = () => {
   return (
-    <TracksProvider>
-      <div className={styles.homeContainer}>
-        <TracksList />
-      </div>
-    </TracksProvider>
+    <div className={styles.homeContainer}>
+      <h1 data-testid="tracks-header">Track List</h1>
+      <TracksList />
+    </div>
   );
 };
 export default HomePage;

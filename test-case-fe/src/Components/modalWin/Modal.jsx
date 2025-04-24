@@ -9,7 +9,7 @@ const Modal = ({ isOpen, onClose, children }) => {
     <div className="modal-backdrop">
       <div className="modal-content">
         <button className="modal-close" onClick={onClose}>
-          ×
+          x
         </button>
         {children}
       </div>

@@ -1,16 +1,12 @@
-// Components/TracksList/TracksList.jsx
 import { useEffect, useState, useCallback, memo } from 'react';
-import styles from './TracksList.module.css'; // Adjust the path if necessary
-import TrackCard from '../TrackCard/TrackCard';
-import { useTrackDelete } from '../../hooks/useTrackDelete';
-import TrackSelectionManager from '../trackSelection/TrackSelectoin';
+import styles from './TracksList.module.css';
 import { useApi } from '../../hooks/useApi';
 import { trackService } from '../../api/track.service';
-import Pagination from '../Pagination/Pagination';
-import FilterSidebar from '../trackSearchBar/trackSearchBar';
 import TracksContent from '../track-content/TrackContent';
 import CreateTrackForm from '../createTrackForm/CreateTrackForm';
 import Modal from '../modalWin/Modal';
+import TracksHeader from '../header/Header';
+import FilterSidebar from '../trackSearchBar/trackSearchBar';
 import { genreService } from '../../api/genre.servise';
 
 const TracksList = () => {
@@ -19,8 +15,9 @@ const TracksList = () => {
   useEffect(() => {
     console.log('genreItems:', genreItems);
   }, [genreItems]);
+
   const [isModalOpen, setModalOpen] = useState(false);
-  // Налаштування хука API
+
   const {
     data: tracks,
     loading,
@@ -36,25 +33,22 @@ const TracksList = () => {
   } = useApi(trackService.getTrackList, {
     page: 1,
     limit: 3,
-    query: {}, // Початкові фільтри
+    query: {},
   });
 
-  // Запит при зміні query або сторінки
   useEffect(() => {
     execute();
-  }, [query, page]); // Додаємо query та page в залежності
+  }, [query, page]);
 
-  // Обробники для виконання дій
   const handleBulkDelete = useCallback(
     async (selectedIds) => {
       if (
         window.confirm(
-          `Ви впевнені, що хочете видалити ${selectedIds.length} треків?`,
+          `Are you sure you want to delete ${selectedIds.length} tracks?`,
         )
       ) {
         try {
-          // Тут логіка видалення
-          execute(); // Оновлюємо дані після видалення
+          execute();
         } catch (error) {
           console.error('Error deleting tracks:', error);
         }
@@ -68,41 +62,69 @@ const TracksList = () => {
   }, []);
 
   return (
-    <div className={styles.tracksContainer}>
-      <div className={styles.sidebar}>
-        <FilterSidebar
-          genres={genreItems}
-          query={query}
-          setQuery={setQuery}
-          changePage={setPage}
-        />
-      </div>
-
-      <div className={styles.mainContent}>
-        <button onClick={() => setModalOpen(true)}>Створити трек</button>
-
-        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+    <>
+      <div className={styles.header}>
+        <TracksHeader onCreateClick={() => setModalOpen(true)} />
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          data-testid="confirm-dialog"
+        >
           <CreateTrackForm
             allGenres={genreItems}
             onSuccess={(track) => console.log('Created!', track)}
           />
         </Modal>
-
-        <div>
-          <TracksContent
-            allGenres={genreItems}
-            tracks={tracks}
-            loading={loading}
-            error={error}
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-            onBulkDelete={handleBulkDelete}
-            onAddToPlaylist={handleAddToPlaylist}
+      </div>
+      <div className={styles.tracksContainer}>
+        <div
+          className={styles.sidebar}
+          data-testid="filter-sidebar"
+          data-loading={loading ? 'true' : 'false'}
+        >
+          <FilterSidebar
+            genres={genreItems}
+            query={query}
+            setQuery={setQuery}
+            changePage={setPage}
+            disabled={loading}
+            aria-disabled={loading ? 'true' : 'false'}
           />
         </div>
+
+        <div
+          className={styles.mainContent}
+          data-testid="main-content"
+          data-loading={loading ? 'true' : 'false'}
+        >
+          {loading ? (
+            <div
+              className={styles['loading-indicator']}
+              data-testid="loading-indicator"
+              data-loading="true"
+            >
+              Loading tracks...
+            </div>
+          ) : (
+            <div>
+              <TracksContent
+                allGenres={genreItems}
+                tracks={tracks}
+                loading={loading}
+                error={error}
+                page={page}
+                totalPages={totalPages}
+                setPage={setPage}
+                onBulkDelete={handleBulkDelete}
+                onAddToPlaylist={handleAddToPlaylist}
+                disabled={loading}
+                aria-disabled={loading ? 'true' : 'false'}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

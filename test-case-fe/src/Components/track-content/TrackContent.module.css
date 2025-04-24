@@ -6,6 +6,7 @@
   padding: 8px 0;
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .tracksList::-webkit-scrollbar {
@@ -19,4 +20,92 @@
 
 .tracksList::-webkit-scrollbar-track {
   background: transparent;
+}
+.trackSelectionContainer {
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #0f262200;
+  margin-bottom: 2rem;
+}
+
+.selectionControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.selectionButton {
+  background-color:#275a4f;
+  color: #e6f0ff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.selectionButton:hover {
+  background-color: #275a4f;
+}
+
+.selectionButton.active {
+  background-color: #1c4139;
+}
+
+.selectionActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  background-color: #275a4f;
+  color: #e6f0ff;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #275a4f;
+}
+
+.deleteButton {
+  background-color: #275a4f;
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background-color: #1c4038;
+}
+
+.selectedCount {
+  font-size: 0.875rem;
+  color: #e6f0ff;
+}
+
+.bulkActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

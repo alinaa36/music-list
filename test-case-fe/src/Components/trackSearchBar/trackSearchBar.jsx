@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './trackSearchBar.module.css';
 import SearchSection from '../search-section/SearchSection';
 import SortSection from '../sort-section/SortSection';
 import CheckboxFilterSection from '../checkbox-filter-section/CheckboxFilterSection';
 import { genreService } from '../../api/genre.servise';
 import { useApi } from '../../hooks/useApi';
-import { useEffect } from 'react';
 
 const FilterSidebar = ({ query, setQuery, changePage }) => {
-  const handleCheckboxChange = (key, selectedValues) => {
-    setQuery((prev) => ({
-      ...prev,
-      [key]: selectedValues,
-    }));
-    changePage(1); // Переходимо на першу сторінку при зміні фільтрів
-  };
-
+  // Fetch genre list
   const { data: genreItems, execute } = useApi(genreService.getGenreList);
+
+  useEffect(() => {
+    execute(); // Execute API call when component mounts
+  }, []);
 
   useEffect(() => {
     console.log('genreItems:', genreItems);
@@ -25,7 +21,7 @@ const FilterSidebar = ({ query, setQuery, changePage }) => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
-        і<h3>Фільтри</h3>
+        <h3>Фільтри</h3>
         <button
           className={styles.resetButton}
           onClick={() => {
@@ -46,10 +42,10 @@ const FilterSidebar = ({ query, setQuery, changePage }) => {
 
       <CheckboxFilterSection
         title="Жанри"
-        filterKey="genre"
+        filterKey="genre" // This should match the key in your query object
         placeholder="Пошук жанру"
         items={Array.isArray(genreItems) ? genreItems : []}
-        query={query.genres || []}
+        query={query} // Pass the whole query object, not just query.genres
         setQuery={setQuery}
         changePage={changePage}
       />

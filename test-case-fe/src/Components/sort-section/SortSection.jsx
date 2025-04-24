@@ -1,4 +1,5 @@
 import styles from '../trackSearchBar/trackSearchBar.module.css';
+
 const SortSection = ({ query, setQuery, changePage }) => {
   const handleSortByChange = (e) => {
     const value = e.target.value;
@@ -19,34 +20,36 @@ const SortSection = ({ query, setQuery, changePage }) => {
 
   return (
     <div className={styles.filterSection}>
-      <h4 className={styles.sectionTitle}>Сортування</h4>
+      <h4 className={styles.sectionTitle}>Sorting</h4>
       <div className={styles.sortOptions}>
         <select
           className={styles.select}
           value={query?.sortBy || 'title'}
           onChange={handleSortByChange}
+          data-testid="sort-select" // Data attribute for testing
         >
-          <option value="title">Назва треку</option>
-          <option value="artist">Виконавець</option>
-          <option value="album">Альбом</option>
-          <option value="genre">Жанр</option>
+          <option value="title">Track Title</option>
+          <option value="artist">Artist</option>
+          <option value="album">Album</option>
+          <option value="genre">Genre</option>
         </select>
         <div className={styles.orderButtons}>
           <button
             className={`${styles.orderButton} ${query?.sortOrder === 'asc' ? styles.active : ''}`}
             onClick={() => handleOrderChange('asc')}
           >
-            За зростанням
+            Ascending
           </button>
           <button
             className={`${styles.orderButton} ${query?.sortOrder === 'desc' ? styles.active : ''}`}
             onClick={() => handleOrderChange('desc')}
           >
-            За спаданням
+            Descending
           </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default SortSection;

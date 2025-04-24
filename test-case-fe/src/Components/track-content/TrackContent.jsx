@@ -1,14 +1,10 @@
-import styles from '../TracksList/TracksList.module.css';
-import { useTrackDelete } from '../../hooks/useTrackDelete';
-import TrackSelectionManager from '../trackSelection/TrackSelectoin';
-import { useApi } from '../../hooks/useApi';
-import { trackService } from '../../api/track.service';
+import styles from './TrackContent.module.css';
+import { memo, useState } from 'react';
 import Pagination from '../Pagination/Pagination';
-import FilterSidebar from '../trackSearchBar/trackSearchBar';
-import { useEffect, useCallback, memo } from 'react';
 import TrackCard from '../TrackCard/TrackCard';
+import useActiveTrack from '../../hooks/useActiveTrack';
+import TrackSelectionManager from '../trackSelection/TrackSelectoin';
 
-// Виносимо TrackContent в окремий мемоізований компонент
 const TracksContent = memo(
   ({
     allGenres,
@@ -21,20 +17,20 @@ const TracksContent = memo(
     onBulkDelete,
     onAddToPlaylist,
   }) => {
-    // Відображення стану завантаження
-    if (loading) {
-      return <div className={styles.loading}>Завантаження...</div>;
-    }
+    const { activeTrack, playTrack, stopTrack } = useActiveTrack(); // <-- used here
+    const [selectedIds, setSelectedIds] = useState([]);
 
-    // Відображення помилки
-    if (error) {
-      return <div className={styles.error}>Помилка: {error.message}</div>;
-    }
+    const handleToggleSelect = (id) => {
+      setSelectedIds((prev) =>
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+      );
+    };
 
-    // Порожній стан
-    if (!tracks || tracks.length === 0) {
-      return <div className={styles.noResults}>Треки не знайдено</div>;
-    }
+    if (loading) return <div className={styles.loading}>Loading...</div>;
+    if (error)
+      return <div className={styles.error}>Error: {error.message}</div>;
+    if (!tracks || tracks.length === 0)
+      return <div className={styles.noResults}>No tracks found</div>;
 
     return (
       <div className={styles.tracksContentWrapper}>
@@ -43,27 +39,32 @@ const TracksContent = memo(
           onBulkDelete={onBulkDelete}
           onAddToPlaylist={onAddToPlaylist}
         >
-          <div className={styles.tracksList}>
-            {tracks.map((track) => (
-              <TrackCard
-                allGenres={allGenres}
-                key={track.id}
-                id={track.id}
-                title={track.title}
-                album={track.album}
-                genres={track.genres}
-                artist={track.artist}
-                image={track.coverImage}
-                audiofile={track.audioFile}
-              />
-            ))}
-          </div>
+          {tracks.map((track) => (
+            <TrackCard
+              allGenres={allGenres}
+              key={track.id}
+              id={track.id}
+              title={track.title}
+              album={track.album}
+              genres={track.genres}
+              artist={track.artist}
+              image={track.coverImage}
+              audiofile={track.audioFile}
+              activeTrack={activeTrack}
+              playTrack={playTrack}
+              stopTrack={stopTrack}
+              selected={selectedIds.includes(track.id)}
+              onToggleSelect={() => handleToggleSelect(track.id)}
+              selectable={true}
+            />
+          ))}
         </TrackSelectionManager>
 
         <Pagination
           page={page}
           totalPages={totalPages}
           onPageChange={(newPage) => setPage(newPage)}
+          data-testid="pagination"
         />
       </div>
     );
