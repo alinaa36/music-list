@@ -1,7 +1,7 @@
 // context/TracksContext.js
 import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useTracks } from './hooks/useTracks';
+import { useTracks } from '../hooks/useTracks';
 
 const TracksContext = createContext(null);
 

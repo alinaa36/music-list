@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pageButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #00509e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pageButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-weight: bold;
+}

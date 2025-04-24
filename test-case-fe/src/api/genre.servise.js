@@ -5,7 +5,7 @@ export const genreService = {
     try {
       const response = await axios.get('http://localhost:3000/api/genres');
       console.log(response.data);
-      return response;
+      return response.data;
     } catch (error) {
       console.error('Error fetching genre list:', error);
       throw error;

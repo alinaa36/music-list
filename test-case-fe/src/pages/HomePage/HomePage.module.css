@@ -1,3 +1,51 @@
-:root {
-    background-color: #d8e4fc;
+/* HomePage.module.css */
+
+.homeContainer {
+  background-color: #0a1f1c; /* Primary Background */
+  min-height: 100vh;
+  padding: 32px 24px;
+  color: #e6fff3; /* Primary Text */
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Якщо є заголовок сторінки */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #e6fff3;
+}
+
+/* Контейнер для фільтрів і пошуку */
+.searchFilterContainer {
+  background-color: #132e2a; /* Secondary Background */
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Стилі для списку треків */
+.tracksListContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Мікроанімації */
+.trackCard:hover {
+  box-shadow: 0 2px 12px rgba(39, 90, 79, 0.4); /* Muted Accent */
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
 }

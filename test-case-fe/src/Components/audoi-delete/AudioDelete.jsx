@@ -1,9 +1,8 @@
 import { trackService } from '../../api/track.service';
 import { useApi } from '../../hooks/useApi';
-import { useTrackDelete } from '../../hooks/useTrackDelete';
-import styles from './Delete.module.css';
+import styles from './AudioDelete.module.css';
 
-const Delete = ({ id, onClose }) => {
+const AudoiDelete = ({ id, onClose }) => {
   console.log('Delete component rendered with id:', id);
   const handleDelete = async (id) => {
     await apiHook.execute({
@@ -11,11 +10,10 @@ const Delete = ({ id, onClose }) => {
       id: id,
     });
   };
-  const apiHook = useApi(trackService.deleteTrack, { autoExecute: false });
-
+  const apiHook = useApi(trackService.deletefile, { autoExecute: false });
   return (
     <div className={styles.deleteModal}>
-      <h2>Ви впевнені, що хочете видалити трек?</h2>
+      <h2>Ви впевнені, що хочете видалити файл?</h2>
 
       <div className={styles.modalButtons}>
         <button
@@ -31,4 +29,4 @@ const Delete = ({ id, onClose }) => {
     </div>
   );
 };
-export default Delete;
+export default AudoiDelete;

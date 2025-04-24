@@ -1,6 +1,6 @@
-import { use } from 'react';
-import { ArtistServise } from '../api/artist.servise';
-import { useEffect, useState } from 'react';
+import { use } from "react";
+import { ArtistServise } from "../api/artist.servise";
+import { useEffect, useState } from "react";
 
 export function useArtist() {
   const [artist, setArtist] = useState([]);
