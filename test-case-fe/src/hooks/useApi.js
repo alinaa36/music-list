@@ -8,7 +8,7 @@ export function useApi(apiCall, initialParams = {}) {
   const [page, setPage] = useState(initialParams.page || 1);
   const [limit, setLimit] = useState(initialParams.limit || 3);
   const [totalPages, setTotalPages] = useState(1);
-  const [query, setQuery] = useState(initialParams.query || {}); // Для фільтрів, пошуку і т.д.
+  const [query, setQuery] = useState(initialParams.query || {});
   const [autoExecute, setAutoExecute] = useState(
     initialParams.autoExecute !== false,
   );
@@ -53,12 +53,10 @@ export function useApi(apiCall, initialParams = {}) {
     setPage(newPage);
   };
 
-  // Only execute automatically if autoExecute is true
   useEffect(() => {
     if (autoExecute) {
       execute();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return {

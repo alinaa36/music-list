@@ -1,10 +1,8 @@
 import { Button } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useTrackForm } from '../../hooks/useTrackForm';
 import { trackService } from '../../api/track.service';
 import { useApi } from '../../hooks/useApi';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
-import styles from '../TrackCard/TrackCard.module.css';
+import styles from '../track-card/TrackCard.module.css';
 
 const UploadFile = ({ id }) => {
   const handleFileUpload = async (event) => {

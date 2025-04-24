@@ -31,11 +31,11 @@ const SearchSection = ({ query, setQuery, changePage }) => {
 
   return (
     <div className={styles.filterSection}>
-      <h4 className={styles.sectionTitle}>Пошук</h4>
+      <h4 className={styles.sectionTitle}>Search</h4>
       <div className={styles.searchContainer}>
         <input
           type="text"
-          placeholder="Пошук треків..."
+          placeholder="Search for tracks..."
           className={styles.searchInput}
           value={searchValue}
           onChange={handleInputChange}
@@ -43,7 +43,7 @@ const SearchSection = ({ query, setQuery, changePage }) => {
         />
       </div>
       <p className={styles.searchHint}>
-        Пошук з debounce за назвою, виконавцем та альбомом
+        Search with debounce by title, artist, and album
       </p>
     </div>
   );

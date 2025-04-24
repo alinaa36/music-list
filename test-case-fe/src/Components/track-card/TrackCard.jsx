@@ -3,13 +3,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from './TrackCard.module.css';
-import AudioPlayer from '../AudioPlayer/AudioPlayer';
+import AudioPlayer from '../audio-player/AudioPlayer';
 import UploadFile from '../UploadFile/UploadFile';
-import CreateTrackForm from '../createTrackForm/CreateTrackForm';
+import CreateTrackForm from '../create-track-form/CreateTrackForm';
 import { useState } from 'react';
-import Modal from '../modalWin/Modal';
-import Delete from '../Delete/Delete';
-import { useAudioDelete } from '../../hooks/useAudioDelete';
+import Modal from '../modal-win/Modal';
+import Delete from '../delete/Delete';
 import AudoiDelete from '../audoi-delete/AudioDelete';
 
 const TrackCard = ({
@@ -29,7 +28,6 @@ const TrackCard = ({
   stopTrack,
 }) => {
   const [modalType, setModalType] = useState(null);
-  const audioUrl = `http://localhost:8000/api/files/${audiofile}`;
 
   const closeModal = () => {
     setModalType(null);
@@ -67,7 +65,6 @@ const TrackCard = ({
           }
         }}
       >
-        {/* Selection indicator */}
         {selectable && (
           <div className={styles.selectionIndicator}>
             <CheckCircleIcon
@@ -78,7 +75,11 @@ const TrackCard = ({
 
         <div className={styles.contentWrapper}>
           <div className={styles.albumWrapper}>
-            <img src={image} alt="Album Cover" className={styles.albumCover} />
+            <img
+              src={image || '/default.jpg'}
+              alt="Album Cover"
+              className={styles.albumCover}
+            />
           </div>
           <div className={styles.trackInfo}>
             <h6 data-testid={`track-item-${id}-title`}>{title}</h6>

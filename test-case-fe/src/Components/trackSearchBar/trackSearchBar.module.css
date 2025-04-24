@@ -64,7 +64,6 @@
   background-color: #00e673;
   transform: scale(1.03);
 }
-/* Додай це до існуючого trackSearchBar.module.css */
 
 .filterSection {
   margin-bottom: 20px;
@@ -130,8 +129,6 @@
   border-color: #00cc66;
 }
 
-/* Додай це до існуючого trackSearchBar.module.css */
-
 .filterSection {
   margin-bottom: 20px;
   padding: 12px;
@@ -192,7 +189,6 @@
   margin-top: 8px;
   font-family: 'Inter', sans-serif;
 }
-/* Додай це до існуючого trackSearchBar.module.css */
 
 .filterSection {
   margin-bottom: 20px;

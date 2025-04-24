@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from '../track-content/TrackContent.module.css';
-import { useTrackDelete } from '../../hooks/useTrackDelete';
 import { useApi } from '../../hooks/useApi';
 import { trackService } from '../../api/track.service';
 
@@ -15,8 +14,6 @@ const TrackSelectionManager = ({
 
   const [selectionMode, setSelectionMode] = useState(false);
   const apiHook = useApi(trackService.deleteSelectionTracks);
-
-  const { deleteTrack, deleteLoading, deleteError } = useTrackDelete();
 
   const toggleSelectionMode = () => {
     setSelectionMode(!selectionMode);
@@ -50,14 +47,6 @@ const TrackSelectionManager = ({
 
   const deselectAllTracks = () => {
     setSelectedTracks([]);
-  };
-
-  const handleBulkAction = (action) => {
-    console.log(`Performing ${action} on tracks:`, selectedTracks);
-
-    if (action === 'delete' && onBulkDelete) {
-      onBulkDelete(selectedTracks);
-    }
   };
 
   const childrenWithProps = Array.isArray(children)
@@ -119,7 +108,7 @@ const TrackSelectionManager = ({
             {selectedTracks.length > 0 && (
               <div className={styles.bulkActions}>
                 <button
-                  onClick={() => deleteTrack(handleDelete(selectedTracks))}
+                  onClick={() => handleDelete(selectedTracks)}
                   className={`${styles.actionButton} ${styles.deleteButton}`}
                   data-testid="bulk-delete-button"
                 >

@@ -1,7 +1,7 @@
 import styles from './TrackContent.module.css';
 import { memo, useState } from 'react';
-import Pagination from '../Pagination/Pagination';
-import TrackCard from '../TrackCard/TrackCard';
+import Pagination from '../pagination/Pagination';
+import TrackCard from '../track-card/TrackCard';
 import useActiveTrack from '../../hooks/useActiveTrack';
 import TrackSelectionManager from '../trackSelection/TrackSelectoin';
 

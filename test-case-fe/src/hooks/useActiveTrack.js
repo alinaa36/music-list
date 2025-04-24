@@ -12,10 +12,8 @@ function useActiveTrack() {
       activeTrack.audio.pause();
     }
 
-    // Встановлюємо новий активний трек
     setActiveTrack({ id, audio: audioElement });
 
-    // Якщо аудіо-елемент доступний, запускаємо відтворення
     if (audioElement) {
       audioElement.play();
     }

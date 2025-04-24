@@ -19,8 +19,8 @@
 .tracksContent {
   display: flex;
   flex-direction: row;
-  gap: 16px; /* відстань між елементами */
-  align-items: flex-start; /* вирівнювання по верхньому краю */
+  gap: 16px; 
+  align-items: flex-start;
   width: 10%;
 }
 .header {
